@@ -17,8 +17,6 @@ jobs:
           nim-version: ${{ env.nim-version }}
       - run: nimble install -Y
       - run: nim doc --out:${{ env.deploy-dir }}/index.html src/ada/wrapper.nim
-      - name: "Copy to index.html"
-        run: cp ${{ env.deploy-dir }}/${{ github.event.repository.name }}.html ${{ env.deploy-dir }}/index.html
       - name: Deploy documents
         uses: peaceiris/actions-gh-pages@v3
         with:
