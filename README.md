@@ -2,7 +2,20 @@
 This library provides low-level bindings and a high-level wrapper over [ada-url](https://github.com/ada-url/ada), a high-performance and WHATWG-compliant URL parser written in C++. \
 The high-level wrapper manages memory for you via ORC move semantics.
 
+Documentation for this library can be found [here](https://ferus-web.github.io/nim-ada/).
+
 **This library has been tested and confirmed to work with ada-url 3.2.1**
+
+## installation
+To add this library to your project, run the following command:
+```
+$ nimble add ada
+```
+
+If you simply wish to install it, run this command:
+```
+$ nimble install ada
+```
 
 ## examples
 ### parsing a URL
