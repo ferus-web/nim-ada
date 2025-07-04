@@ -2,6 +2,8 @@
 This library provides low-level bindings and a high-level wrapper over [ada-url](https://github.com/ada-url/ada), a high-performance and WHATWG-compliant URL parser written in C++. \
 The high-level wrapper manages memory for you via ORC move semantics.
 
+**This library has been tested and confirmed to work with ada-url 3.2.1**
+
 ## examples
 ### parsing a URL
 ```nim
@@ -9,7 +11,7 @@ import std/options
 import pkg/ada
 
 var url = parseURL("https://example.com/path?x=y")
-echo url.hostname      ## example.com/path?x=y
+echo url.hostname      ## example.com
 echo url.pathname      ## /path?x=y
 echo url.query.get()   ## ?x=y
 ```
