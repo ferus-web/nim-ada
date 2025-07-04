@@ -14,6 +14,19 @@ func optionify(str: string): Option[string] {.inline.} =
   if str.len > 0:
     return some(str)
 
+proc `$`*(str: ada_string): string {.raises: [].} =
+  ## Turn an `ada_string` into a string.
+  ## This handles the sentinel value properly.
+  var buffer = newString(str.length)
+  
+  when defined(release):
+    copyMem(buffer[0].addr, str.data[0].addr, str.length)
+  else:
+    for i in 0 ..< str.length:
+      buffer[i] = str.data[i]
+
+  move(buffer)
+
 # Move semantic stuff
 proc `=destroy`*(url: URL) =
   ada_free(url.handle)
@@ -52,49 +65,49 @@ proc isValidURL*(str: string): bool {.raises: [], inline.} =
 # Getter functions
 {.push inline, raises: [].}
 proc origin*(url: URL): string =
-  $ada_get_origin(url.handle).data
+  $ada_get_origin(url.handle)
 
 proc href*(url: URL): string =
-  $ada_get_href(url.handle).data
+  $ada_get_href(url.handle)
 
 proc username*(url: URL): Option[string] =
-  optionify($ada_get_username(url.handle).data)
+  optionify($ada_get_username(url.handle))
 
 proc password*(url: URL): Option[string] =
-  optionify($ada_get_password(url.handle).data)
+  optionify($ada_get_password(url.handle))
 
 proc port*(url: URL): Option[uint] =
   try:
-    some(parseUint($ada_get_port(url.handle).data))
+    some(parseUint($ada_get_port(url.handle)))
   except ValueError:
     none(uint)
 
 proc portString*(url: URL): Option[string] =
-  optionify($ada_get_port(url.handle).data)
+  optionify($ada_get_port(url.handle))
 
 proc fragment*(url: URL): Option[string] =
-  optionify($ada_get_hash(url.handle).data)
+  optionify($ada_get_hash(url.handle))
 
 proc host*(url: URL): Option[string] =
-  optionify($ada_get_host(url.handle).data)
+  optionify($ada_get_host(url.handle))
 
 proc hostname*(url: URL): string =
-  $ada_get_hostname(url.handle).data
+  $ada_get_hostname(url.handle)
 
 proc pathname*(url: URL): string =
-  $ada_get_pathname(url.handle).data
+  $ada_get_pathname(url.handle)
 
 proc query*(url: URL): Option[string] =
-  optionify($ada_get_search(url.handle).data)
+  optionify($ada_get_search(url.handle))
 
 proc search*(url: URL): Option[string] =
-  optionify($ada_get_search(url.handle).data)
+  optionify($ada_get_search(url.handle))
 
 proc protocol*(url: URL): string =
-  $ada_get_protocol(url.handle).data
+  $ada_get_protocol(url.handle)
 
 proc scheme*(url: URL): string =
-  $ada_get_protocol(url.handle).data
+  $ada_get_protocol(url.handle)
 
 proc hostType*(url: URL): uint8 =
   ada_get_host_type(url.handle)
