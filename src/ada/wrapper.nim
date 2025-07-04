@@ -217,7 +217,7 @@ proc search*(url: URL): Option[string] =
 
 proc protocol*(url: URL): string =
   ## Return the URL's scheme, lower-cased and suffixed with the ':' delimiter.
-  ###
+  ##
   ## For more details, read 
   ## **`the WHATWG URL specification <https://url.spec.whatwg.org/#dom-url-protocol>`_**
   ##
