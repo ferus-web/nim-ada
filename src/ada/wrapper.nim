@@ -10,8 +10,9 @@
 ## * It supports the Unicode Technical Standard.
 ##
 ## The Ada library passes the full range of tests from the specification, across a wide range of platforms (e.g., Windows, Linux, macOS).
-##
-## **`WHATWG URL specification <https://url.spec.whatwg.org/>`_**
+## 
+## You can read the WHATWG URL specification 
+## `here <https://url.spec.whatwg.org/>`_
 import std/[options, strutils, hashes]
 import pkg/ada/bindings
 
@@ -95,7 +96,7 @@ proc isValidURL*(str: string): bool {.raises: [], inline.} =
   ## very forgiving, and as such, many odd-looking cases will pass with no issues.
   ##
   ## You are advised to read the WHATWG URL specification to learn more:
-  ## **`WHATWG URL specification <https://url.spec.whatwg.org/>`_**
+  ## `WHATWG URL specification <https://url.spec.whatwg.org/>`_
   ada_can_parse(str.cstring, str.len.uint64)
 
 # Getter functions
@@ -104,35 +105,35 @@ proc origin*(url: URL): string =
   ## Return the origin of this URL.
   ## 
   ## For more details, read 
-  ## **`the WHATWG URL specification <https://url.spec.whatwg.org/#dom-url-origin>`_**
+  ## `the WHATWG URL specification <https://url.spec.whatwg.org/#dom-url-origin>`_
   $ada_get_origin(url.handle)
 
 proc href*(url: URL): string =
   ## Return the parsed version of the URL with all its components.
   ##
   ## For more details, read
-  ## **`the WHATWG URL specification <https://url.spec.whatwg.org/#dom-url-href>`_**
+  ## `the WHATWG URL specification <https://url.spec.whatwg.org/#dom-url-href>`_
   $ada_get_href(url.handle)
 
 proc username*(url: URL): Option[string] =
   ## Return the username for this URL.
   ##
   ## For more details, read 
-  ## **`the WHATWG URL specification <https://url.spec.whatwg.org/#dom-url-username>`_**
+  ## `the WHATWG URL specification <https://url.spec.whatwg.org/#dom-url-username>`_
   optionify($ada_get_username(url.handle))
 
 proc password*(url: URL): Option[string] =
   ## Return the username for this URL.
   ##
   ## For more details, read 
-  ## **`the WHATWG URL specification <https://url.spec.whatwg.org/#dom-url-password>`_**
+  ## `the WHATWG URL specification <https://url.spec.whatwg.org/#dom-url-password>`_
   optionify($ada_get_password(url.handle))
 
 proc port*(url: URL): Option[uint] =
   ## Return the port number for this URL, if specified and parseable into an unsigned integer.
   ##
   ## For more details, read 
-  ## **`the WHATWG URL specification <https://url.spec.whatwg.org/#concept-url-port>`_**
+  ## `the WHATWG URL specification <https://url.spec.whatwg.org/#concept-url-port>`_
   try:
     some(parseUint($ada_get_port(url.handle)))
   except ValueError:
@@ -142,7 +143,7 @@ proc portString*(url: URL): Option[string] =
   ## Return the port number for this URL, if specified.
   ##
   ## For more details, read 
-  ## **`the WHATWG URL specification <https://url.spec.whatwg.org/#concept-url-port>`_**
+  ## `the WHATWG URL specification <https://url.spec.whatwg.org/#concept-url-port>`_
   optionify($ada_get_port(url.handle))
 
 proc fragment*(url: URL): Option[string] =
@@ -152,14 +153,14 @@ proc fragment*(url: URL): Option[string] =
   ## generally a section heading of a document.
   ##
   ## For more details, read 
-  ## **`the WHATWG URL specification <https://url.spec.whatwg.org/#dom-url-hash>`_**
+  ## `the WHATWG URL specification <https://url.spec.whatwg.org/#dom-url-hash>`_
   optionify($ada_get_hash(url.handle))
 
 proc host*(url: URL): Option[string] =
   ## Return the parsed representation of the host for this URL with an optional port number.
   ##
   ## For more details, read 
-  ## **`the WHATWG URL specification <https://url.spec.whatwg.org/#dom-url-host>`_**
+  ## `the WHATWG URL specification <https://url.spec.whatwg.org/#dom-url-host>`_
   optionify($ada_get_host(url.handle))
 
 proc hostname*(url: URL): string =
@@ -168,21 +169,21 @@ proc hostname*(url: URL): string =
   ## non-special URLs. The hostname is devoid of a port number.
   ## 
   ## For more details, read 
-  ## **`the WHATWG URL specification <https://url.spec.whatwg.org/#dom-url-hostname>`_**
+  ## `the WHATWG URL specification <https://url.spec.whatwg.org/#dom-url-hostname>`_
   $ada_get_hostname(url.handle)
 
 proc pathname*(url: URL): string =
   ## Return the path for this URL.
   ##
   ## For more details, read 
-  ## **`the WHATWG URL specification <https://url.spec.whatwg.org/#dom-url-pathname>`_**
+  ## `the WHATWG URL specification <https://url.spec.whatwg.org/#dom-url-pathname>`_
   $ada_get_pathname(url.handle)
 
 proc query*(url: URL): Option[string] =
   ## Return the URL's query string, if it exists.
   ##
   ## For more details, read 
-  ## **`the WHATWG URL specification <https://url.spec.whatwg.org/#dom-url-search>`_**
+  ## `the WHATWG URL specification <https://url.spec.whatwg.org/#dom-url-search>`_
   ##
   ## **Also See**:
   ## * `proc search(URL)`_ which has the same behaviour as this function.
@@ -192,7 +193,7 @@ proc search*(url: URL): Option[string] =
   ## Return the URL's query string, if it exists.
   ##
   ## For more details, read 
-  ## **`the WHATWG URL specification <https://url.spec.whatwg.org/#dom-url-search>`_**
+  ## `the WHATWG URL specification <https://url.spec.whatwg.org/#dom-url-search>`_
   ##
   ## **Also See**:
   ## * `proc query(URL)`_ which has the same behaviour as this function.
