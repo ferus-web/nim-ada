@@ -17,6 +17,22 @@ import std/[options, strutils, hashes]
 import pkg/ada/bindings
 
 type
+  HostType* {.pure, size: sizeof(uint8).} = enum
+    ## This enum defines the type of host.
+    Domain = 0
+    IPv4 = 1
+    IPv6 = 2
+
+  SchemeType* {.pure, size: sizeof(uint8).} = enum
+    ## This enum defines the type of the URL's scheme.
+    HTTP = 0
+    NotSpecial = 1
+    HTTPS = 2
+    WS = 3
+    FTP = 4
+    WSS = 5
+    File = 6
+
   URLParseError* = object of ValueError
     ## This exception is raised by `parseURL` when the specified input
     ## cannot be parsed into a meaningful URL.
@@ -201,7 +217,7 @@ proc search*(url: URL): Option[string] =
 
 proc protocol*(url: URL): string =
   ## Return the URL's scheme, lower-cased and suffixed with the ':' delimiter.
-  ##
+  ###
   ## For more details, read 
   ## **`the WHATWG URL specification <https://url.spec.whatwg.org/#dom-url-protocol>`_**
   ##
@@ -219,66 +235,97 @@ proc scheme*(url: URL): string =
   ## * `proc protocol(URL)`_ which has the same behaviour as this function.
   $ada_get_protocol(url.handle)
 
-proc hostType*(url: URL): uint8 =
-  ada_get_host_type(url.handle)
+proc hostType*(url: URL): HostType =
+  ## Return the URL's host's type. This can be:
+  ## * IPv4
+  ## * IPv6
+  ## * Default
+  ##
+  ## **Also See**:
+  ## * `enum HostType`_
+  HostType(ada_get_host_type(url.handle))
 
-proc schemeType*(url: URL): uint8 =
-  ada_get_scheme_type(url.handle)
+proc schemeType*(url: URL): SchemeType =
+  ## Return the URL's scheme's type.
+  ##
+  ## **Also See**:
+  ## * `enum SchemeType`_
+  SchemeType(ada_get_scheme_type(url.handle))
 
 proc isValid*(url: URL): bool =
   ada_is_valid(url.handle)
 
 # Setter functions
 proc `href=`*(url: var URL, href: string) =
+  ## Updates the `href` of the URL, triggering the URL parser.
   assert(ada_set_href(url.handle, href.cstring, href.len.uint64))
 
 proc `host=`*(url: var URL, host: string) =
+  ## Updates the `host` of the URL.
   assert(ada_set_host(url.handle, host.cstring, host.len.uint64))
 
 proc `hostname=`*(url: var URL, hostname: string) =
+  ## Updates the `hostname` of the URL.
   assert(ada_set_hostname(url.handle, hostname.cstring, hostname.len.uint64))
 
 proc `protocol=`*(url: var URL, protocol: string) =
+  ## Updates the `protocol` of the URL.
   assert(ada_set_protocol(url.handle, protocol.cstring, protocol.len.uint64))
 
 proc `scheme=`*(url: var URL, scheme: string) =
+  ## Updates the `protocol` of the URL.
   assert(ada_set_protocol(url.handle, scheme.cstring, scheme.len.uint64))
 
 proc `username=`*(url: var URL, username: string) =
+  ## Updates the `username` of the URL.
   assert(ada_set_username(url.handle, username.cstring, username.len.uint64))
 
 proc `password=`*(url: var URL, password: string) =
+  ## Updates the `password` of the URL.
   assert(ada_set_password(url.handle, password.cstring, password.len.uint64))
 
 proc `port=`*(url: var URL, port: SomeInteger | string) =
+  ## Updates the `port` of the URL.
   let port = $port
   assert(ada_set_port(url.handle, port.cstring, port.len.uint64))
 
 proc `pathname=`*(url: var URL, path: string) =
+  ## Updates the `pathname` of the URL.
   assert(ada_set_pathname(url.handle, path.cstring, path.len.uint64))
 
 proc `search=`*(url: var URL, search: string) =
+  ## Updates the `search` of the URL.
   assert(ada_set_search(url.handle, search.cstring, search.len.uint64))
 
 proc `query=`*(url: var URL, query: string) =
+  ## Updates the `search` of the URL.
   assert(ada_set_search(url.handle, query.cstring, query.len.uint64))
 
 proc `fragment=`*(url: var URL, frag: string) =
+  ## Updates the `hash` or `fragment` of the URL.
   assert(ada_set_hash(url.handle, frag.cstring, frag.len.uint64))
 
 proc copy*(url: var URL): URL =
+  ## This function clones this URL's handle/underlying memory and
+  ## returns a new URL that is independent of this one. This can be
+  ## used for explicit copying, as implicit copies are already handled
+  ## by the wrapper.
   URL(handle: ada_copy(url.handle))
 
 {.pop.}
 
 # Integration functions
 proc hash*(url: URL): Hash =
+  ## Compute the hash of this URL, so that it can easily be integrated into
+  ## Nim types that uses `Hash`es to distinguish between items.
   hash(url.href) !& hash(url.host) !& hash(url.hostname) !& hash(url.protocol) !&
     hash(url.username) !& hash(url.password) !& hash(url.port) !& hash(url.pathname) !&
     hash(url.search) !& hash(url.query)
 
 proc `==`*(a, b: URL): bool {.inline.} =
+  ## Compare two URLs.
   hash(a) == hash(b)
 
 proc `!=`*(a, b: URL): bool {.inline.} =
+  ## Compare two URLs.
   not (a == b)
