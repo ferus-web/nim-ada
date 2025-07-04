@@ -18,7 +18,7 @@ proc `$`*(str: ada_string): string {.raises: [].} =
   ## Turn an `ada_string` into a string.
   ## This handles the sentinel value properly.
   var buffer = newString(str.length)
-  
+
   when defined(release):
     copyMem(buffer[0].addr, str.data[0].addr, str.length)
   else:
@@ -56,7 +56,7 @@ proc maybeParseURL*(str: string): Option[URL] {.raises: [], inline.} =
   var handle = ada_parse(str.cstring, str.len.uint64)
   if handle == nil:
     return none(URL)
-  
+
   some(URL(handle: move(handle)))
 
 proc isValidURL*(str: string): bool {.raises: [], inline.} =
@@ -163,16 +163,9 @@ proc copy*(url: var URL): URL =
 
 # Integration functions
 proc hash*(url: URL): Hash =
-  hash(url.href) !&
-  hash(url.host) !&
-  hash(url.hostname) !&
-  hash(url.protocol) !&
-  hash(url.username) !&
-  hash(url.password) !&
-  hash(url.port) !&
-  hash(url.pathname) !&
-  hash(url.search) !&
-  hash(url.query)
+  hash(url.href) !& hash(url.host) !& hash(url.hostname) !& hash(url.protocol) !&
+    hash(url.username) !& hash(url.password) !& hash(url.port) !& hash(url.pathname) !&
+    hash(url.search) !& hash(url.query)
 
 proc `==`*(a, b: URL): bool {.inline.} =
   hash(a) == hash(b)

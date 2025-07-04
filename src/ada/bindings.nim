@@ -7,7 +7,7 @@ const lib = "libada.so"
 {.passL: "-lada".}
 
 {.push header: "<ada_c.h>", dynlib: lib.}
-var ADA_URL_OMITTED* {.importc: "ada_url_omitted".}: int32 
+var ADA_URL_OMITTED* {.importc: "ada_url_omitted".}: int32
 
 type
   ada_string* {.final.} = object
@@ -32,10 +32,14 @@ type
 
 {.push cdecl, importc.}
 proc ada_parse*(input: cstring, length: uint64): ada_url
-proc ada_parse_with_base*(input: cstring, inputLength: uint64, base: cstring, baseLength: uint64): ada_url
+proc ada_parse_with_base*(
+  input: cstring, inputLength: uint64, base: cstring, baseLength: uint64
+): ada_url
 
 proc ada_can_parse*(input: cstring, length: uint64): bool
-proc ada_can_parse_with_base*(input: cstring, inputLength: uint64, base: cstring, baseLength: uint64): bool
+proc ada_can_parse_with_base*(
+  input: cstring, inputLength: uint64, base: cstring, baseLength: uint64
+): bool
 
 proc ada_free*(res: ada_url)
 proc ada_free_owned_string*(owned: ada_owned_string)
