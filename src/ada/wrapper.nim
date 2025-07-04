@@ -219,7 +219,7 @@ proc protocol*(url: URL): string =
   ## Return the URL's scheme, lower-cased and suffixed with the ':' delimiter.
   ##
   ## For more details, read 
-  ## **`the WHATWG URL specification <https://url.spec.whatwg.org/#dom-url-protocol>`_**
+  ## `the WHATWG URL specification <https://url.spec.whatwg.org/#dom-url-protocol>`_
   ##
   ## **Also See**:
   ## * `proc scheme(URL)`_ which has the same behaviour as this function.
@@ -229,7 +229,7 @@ proc scheme*(url: URL): string =
   ## Return the URL's scheme, lower-cased and suffixed with the ':' delimiter.
   ##
   ## For more details, read 
-  ## **`the WHATWG URL specification <https://url.spec.whatwg.org/#dom-url-protocol>`_**
+  ## `the WHATWG URL specification <https://url.spec.whatwg.org/#dom-url-protocol>`_
   ##
   ## **Also See**:
   ## * `proc protocol(URL)`_ which has the same behaviour as this function.
