@@ -1,4 +1,4 @@
-**WARNING**: This package is deprecated, and is known to be have certain performance issues. Do not use it! Use [url](https://github.com/xTrayambak/url) instead for a WHATWG URL parser written entirely in Nim.
+**WARNING**: This package is deprecated, and is known to be incompatible with recent versions. Do not use it! Use [url](https://github.com/xTrayambak/url) instead for a WHATWG URL parser written entirely in Nim.
 
 # nim-ada
 This library provides low-level bindings and a high-level wrapper over [ada-url](https://github.com/ada-url/ada), a high-performance and WHATWG-compliant URL parser written in C++. \
